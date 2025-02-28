@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preston Hesson Digs for Treasure</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            text-align: center;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .info {
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .game-field {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 20px;
+        }
+        .game-cell {
+            width: 80px;
+            height: 80px;
+        }
+        .game-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Preston Hesson Digs for Treasure</h1>
+        <p class="info">Click on the locations to find silver and gold, watch out for the rattlesnake.</p>
+        <p id="locations" class="info">Number of locations checked is zero.</p>
+        <p id="score" class="info">Score is zero.</p>
+        <p class="info">Click for help.</p>
+        <p id="help" class="info">Help report</p>
+        
+        <div class="game-field">
+            <!-- 5 rows x 7 columns -->
+            <script>
+                for (let i = 0; i < 35; i++) {
+                    document.write('<div class="game-cell"><img src="cactus.png" alt="Cactus"></div>');
+                }
+            </script>
+        </div>
+    </div>
+</body>
+</html>
