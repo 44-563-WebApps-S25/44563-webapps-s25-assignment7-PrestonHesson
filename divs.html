@@ -1,46 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Preston Hesson Builds List with Divs</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<html> 
+<head> 
   <style>
     .flex-container {
-      display: flex;
+      display: flex;  
       flex-direction: row;
-      flex-wrap: wrap;
-      gap: 10px;
+      background-color: red;
     }
-    .divlist {
-      padding: 10px;
-      background-color: lightblue;
-      border: 1px solid navy;
-      text-align: center;
+
+    .flex-container > div {  
+      background-color: #f1f1f1; 
+      margin: 10px;  
+      padding: 20px;  
+      font-size: 30px;
+    }
+
+    /* Responsive layout */
+    @media (max-width: 600px) { 
+      .flex-container {
+        flex-direction: column;
+        background-color: green;
+      }
     }
   </style>
 </head>
+
 <body>
-  <h2>Preston Hesson Builds List with Divs</h2>
-  
-  <input type="text" id="itemInput" placeholder="Enter item">
-  <button type="button" class="btn btn-primary" onclick="addItemEnd()">Add End</button>
-  
-  <div class="flex-container" id="listContainer"></div>
-  
+  <h2>Preston Hesson builds list with divs</h2>
+
+  <input type="text" id="textInput" placeholder="Enter item text">
+  <button onclick="addFront()">Add front</button>
+  <button onclick="makeNewDiv()">Add end</button>
+  <button onclick="removeItem()">Remove</button>
+
+  <div class="flex-container" id="target">
+    <div class="divlist">row item 1</div>   
+    <div class="divlist">row item 2</div>  
+    <div class="divlist">row item 3</div>  
+  </div>
+
   <script>
-    function addItemEnd() {
-      let inputValue = document.getElementById("itemInput").value;
-      if (inputValue.trim() === "") return;
+    function makeNewDiv() {
+      let inputValue = document.getElementById("textInput").value;
+      if (!inputValue) {
+        alert("Please enter text for the new item.");
+        return;
+      }
+
+      let element = document.createElement("div");
+      element.innerHTML = inputValue;
+      element.className = "divlist";
+      element.style.color = "orange";
+
+      let container = document.getElementById("target");
+      container.appendChild(element);
       
-      let newDiv = document.createElement("div");
-      newDiv.innerHTML = inputValue;
-      newDiv.className = "divlist";
+      document.getElementById("textInput").value = "";
+    }
+
+    function addFront() {
+      let inputValue = document.getElementById("textInput").value;
+      if (!inputValue) {
+        alert("Please enter text for the new item.");
+        return;
+      }
+
+      let element = document.createElement("div");
+      element.innerHTML = inputValue;
+      element.className = "divlist";
+      element.style.color = "blue"; // Different color for front added items
+
+      let container = document.getElementById("target");
+      container.insertBefore(element, container.firstChild);
+
+      document.getElementById("textInput").value = "";
+    }
+
+    function removeItem() {
+      let divListItems = document.getElementsByClassName("divlist");
+      let length = divListItems.length;
       
-      document.getElementById("listContainer").appendChild(newDiv);
+      if (length > 0) {
+        let middleIndex = Math.floor(length / 2);
+        divListItems[middleIndex].remove();
+      } else {
+        alert("No items left to remove.");
+      }
     }
   </script>
 </body>
