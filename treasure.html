@@ -34,6 +34,63 @@
             object-fit: cover;
         }
     </style>
+    <script>
+        let ids = [];
+        let score = 0;
+        let locationsVisited = 0;
+        let lastLocation = 0;
+        let silverLocations = [2, 5, 11, 21, 32];
+        let goldLocation = 15;
+        let snakeLocation = 20;
+        let gameOver = false;
+
+        function check(position) {
+            if (gameOver) return;
+            let imgElement = document.getElementById(ids[position]);
+            if (silverLocations.includes(position)) {
+                imgElement.src = "silver.png";
+                score += 3;
+            } else if (position === goldLocation) {
+                imgElement.src = "gold.jpg";
+                score += 5;
+            } else if (position === snakeLocation) {
+                imgElement.src = "snake.jpg";
+                score -= 3;
+                gameOver = true;
+            } else {
+                imgElement.src = "pottery.jpg";
+                score += 1;
+            }
+            locationsVisited++;
+            lastLocation = position;
+            document.getElementById("score").innerText = `Score is ${score}.`;
+            document.getElementById("locations").innerText = `Number of locations checked is ${locationsVisited}.`;
+        }
+
+        function help() {
+            let row = Math.floor(lastLocation / 7);
+            let col = lastLocation % 7;
+            let neighbors = [lastLocation - 1, lastLocation + 1, lastLocation - 7, lastLocation + 7];
+            let validNeighbors = neighbors.filter(pos => pos >= 0 && pos < 35);
+            
+            for (let pos of validNeighbors) {
+                if (silverLocations.includes(pos)) {
+                    document.getElementById("help").innerText = "Help report: Clink";
+                    return "clink";
+                }
+            }
+            
+            let snakeRow = Math.floor(snakeLocation / 7);
+            let snakeCol = snakeLocation % 7;
+            if (Math.abs(row - snakeRow) <= 1 && Math.abs(col - snakeCol) <= 1) {
+                document.getElementById("help").innerText = "Help report: Rattle";
+                return "rattle";
+            }
+            
+            document.getElementById("help").innerText = "Help report: Wind";
+            return "wind";
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -41,14 +98,15 @@
         <p class="info">Click on the locations to find silver and gold, watch out for the rattlesnake.</p>
         <p id="locations" class="info">Number of locations checked is zero.</p>
         <p id="score" class="info">Score is zero.</p>
-        <p class="info">Click for help.</p>
+        <p class="info" onclick="help()">Click for help.</p>
         <p id="help" class="info">Help report</p>
         
         <div class="game-field">
-            <!-- 5 rows x 7 columns -->
             <script>
                 for (let i = 0; i < 35; i++) {
-                    document.write('<div class="game-cell"><img src="cactus.jpg" alt="Cactus"></div>');
+                    let id = `cell-${i}`;
+                    ids.push(id);
+                    document.write(`<div class="game-cell"><img id="${id}" src="cactus.jpg" alt="Cactus" onclick="check(${i})"></div>`);
                 }
             </script>
         </div>
